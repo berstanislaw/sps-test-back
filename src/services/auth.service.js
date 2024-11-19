@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const { getByEmail } = require("./user.service");
 
 const login = (email, password) => {
@@ -9,7 +11,15 @@ const login = (email, password) => {
     );
   }
 
-  return user;
+  const token = jwt.sign(
+    { id: user.id, email: user.email },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
+
+  return { user, token };
 };
 
 module.exports = { login };
