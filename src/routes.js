@@ -8,6 +8,7 @@ const {
   update,
   deleteById,
 } = require("./services/user.service");
+const { login } = require("./services/auth.service");
 
 // User routes
 routes.get("/users", (req, res) => {
@@ -41,6 +42,15 @@ routes.delete("/users/:id", (req, res) => {
   deleteById(Number(id));
 
   res.status(204).send();
+});
+
+// Auth routes
+routes.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  const response = login(email, password);
+
+  res.status(200).json({ user: response });
 });
 
 module.exports = routes;
