@@ -5,7 +5,7 @@ const { getByEmail } = require("./user.service");
 const login = (email, password) => {
   const user = getByEmail(email);
 
-  if (user.password !== password) {
+  if (!user || user.password !== password) {
     throw new Error(
       JSON.stringify({ message: "Invalid credentials", status: 401 })
     );
